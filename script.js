@@ -54,9 +54,10 @@ function playGame() {
         numRounds = parseInt(prompt('How many rounds? Just give me a number!\n'));
     }
 
-    for (let i = 0; i < numRounds; i++) {
-        playRound(getHumanChoice(), getComputerChoice());
-    }
+    // TODO: Re-add implementation of rounds
+    // for (let i = 0; i < numRounds; i++) {
+    //     playRound(getHumanChoice(), getComputerChoice());
+    // }
 
     // a final message
     if (humanScore > computerScore) {
