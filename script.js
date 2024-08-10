@@ -1,18 +1,10 @@
 const rock = document.querySelector("#rock");
 const paper = document.querySelector("#paper");
 const scissors = document.querySelector("#scissors");
-
-rock.addEventListener("click", () => {
-    playRound("rock", getComputerChoice())
-});
-
-paper.addEventListener("click", () => {
-    playRound("paper", getComputerChoice())
-});
-
-scissors.addEventListener("click", () => {
-    playRound("scissors", getComputerChoice())
-});
+const result = document.querySelector("#result");
+const final = document.querySelector("#final");
+const human = document.querySelector("#human");
+const computer = document.querySelector("#computer");
 
 // The scores for each game
 let humanScore = 0;
@@ -25,28 +17,43 @@ function getComputerChoice() {
     return choices[Math.floor(Math.random() * 3)];
 }
 
-// Gets the user choice and does not accept improper inputs
-// function getHumanChoice() {
-//     let player = prompt('rock, paper, or scissors: ');
-//     while (!choices.includes(player.toLowerCase())) {
-//         player = prompt('rock, paper, or scissors (pick one and type it in)');
-//     }
-//     return player.toLowerCase();
-// }
+rock.addEventListener("click", () => playRound("rock", getComputerChoice()));
+paper.addEventListener("click", () => playRound("paper", getComputerChoice()));
+scissors.addEventListener("click", () => playRound("scissors", getComputerChoice()));
+
+// Resets the game
+function reset() {
+    endGame(humanScore, computerScore);
+    humanScore = 0;
+    computerScore = 0;
+    result.textContent = '';
+    return;
+}
 
 // Prints win, otherwise parses input to figure out if there was a loss or a tie
 function output(winner, humanChoice, computerChoice) {
     if (winner == 1) {
-        console.log(`You win! (because ${humanChoice} beats ${computerChoice})`);
+        result.textContent = `You win! (because ${humanChoice} beats ${computerChoice})`;
         humanScore++;
     } else {
             if (humanChoice != computerChoice) {
-                console.log(`You lose! (because ${computerChoice} beats ${humanChoice})`);
+                result.textContent = `You lose! (because ${computerChoice} beats ${humanChoice})`;
                 computerScore++;
         } else {
-            console.log("It's a tie!");
+            result.textContent = "It's a tie!";
         }
-    }   
+    }
+    human.textContent = humanScore;
+    computer.textContent = computerScore;
+    if (humanScore >= 5) {
+        reset();
+        return;
+    } else if (computerScore >= 5) {
+        reset();
+        return;
+    } else {
+        final.textContent = '';
+    }
     return;
 }
 
@@ -62,22 +69,12 @@ function playRound(humanChoice, computerChoice) {
     return;
 }
 
-// Set the number of rounds
-// let numRounds = parseInt(prompt('How many rounds?\n'));
-// while (isNaN(numRounds)) {
-//     numRounds = parseInt(prompt('How many rounds? Just give me a number!\n'));
-// }
-
-// TODO: Re-add implementation of rounds
-// for (let i = 0; i < numRounds; i++) {
-//     playRound(getHumanChoice(), getComputerChoice());
-// }
-
 // a final message
-// if (humanScore > computerScore) {
-//     console.log('You won!');
-// } else {
-//     console.log("You didn't win...");
-// }
-
-// return humanScore > computerScore;
+function endGame(humanScore, computerScore) {
+    if (humanScore > computerScore) {
+        final.textContent = 'Good job, you won!';
+    } else {
+        final.textContent = "You didn't win...";
+    }
+    return;
+}
